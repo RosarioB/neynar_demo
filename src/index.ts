@@ -19,7 +19,13 @@ app.use(cors());
 
 app.post("/", async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
+    const data = req.body;
+    console.log(data);
+    if (data.embeds) {
+      data.embeds.forEach((embed, index) => {
+        console.log(`Embed ${index + 1}:`, embed);
+      });
+    }
     res.send("gm!");
   } catch (e: any) {
     res.status(500).send(e.message);
