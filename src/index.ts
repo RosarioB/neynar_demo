@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
+import util from "util";
 
 const app = express();
 const PORT = 3000;
@@ -20,13 +21,7 @@ app.use(cors());
 app.post("/", async (req: Request, res: Response) => {
   try {
     const data = req.body;
-    console.log(data);
-    if (data.embeds) {
-      console.log("Embeds array:", JSON.stringify(data.embeds, null, 2));
-      data.embeds.forEach((embed, index) => {
-        console.log(`Embed ${index + 1}:`, JSON.stringify(embed, null, 2));
-      });
-    }
+    console.log(util.inspect(data, { depth: null, colors: true }));
     res.send("gm!");
   } catch (e: any) {
     res.status(500).send(e.message);
