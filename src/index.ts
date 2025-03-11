@@ -22,8 +22,9 @@ app.post("/", async (req: Request, res: Response) => {
     const data = req.body;
     console.log(data);
     if (data.embeds) {
+      console.log("Embeds array:", JSON.stringify(data.embeds, null, 2));
       data.embeds.forEach((embed, index) => {
-        console.log(`Embed ${index + 1}:`, embed);
+        console.log(`Embed ${index + 1}:`, JSON.stringify(embed, null, 2));
       });
     }
     res.send("gm!");
