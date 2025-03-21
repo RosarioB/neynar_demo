@@ -42,7 +42,7 @@ app.post("/api/cast", async (req: Request, res: Response) => {
       signerUuid: config.signer_uuid,
       text: text,
     });
-    console.log(`Cast ${text} published successfully`);
+    console.log("Published cast:", text);
     res.status(200).send(`Cast published successfully`);
   } catch (e: any) {
     res.status(500).send(e.message);
