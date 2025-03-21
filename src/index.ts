@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import util from "util";
+import neynarClient from "./neynar.js";
+import { config } from "./config.js";
 
 const app = express();
 const PORT = 3000;
@@ -13,23 +15,38 @@ app.use((req: Request, res: Response, next) => {
 });
 
 app.set("trust proxy", true);
-
 app.use(express.json());
-
 app.use(cors());
 
-app.post("/", async (req: Request, res: Response) => {
+// Testing that the server is running
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello, this is the Neynar Test server!");
+});
+
+// Webhook to handle mentions @Aethermint from Farcaster
+app.post("/api/webhook/mention", async (req: Request, res: Response) => {
   try {
     const data = req.body;
     console.log(util.inspect(data, { depth: null, colors: true }));
-    res.send("gm!");
+    res.status(200).send("Received mention from Farcaster");
   } catch (e: any) {
     res.status(500).send(e.message);
   }
 });
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, this is a GET request!");
+// Pusblishing a cast to Farcaster
+app.post("/api/cast", async (req: Request, res: Response) => {
+  const text = req.body.text;
+  try {
+    await neynarClient.publishCast({
+      signerUuid: config.signer_uuid,
+      text: text,
+    });
+    console.log(`Cast ${text} published successfully`);
+    res.status(200).send(`Cast published successfully`);
+  } catch (e: any) {
+    res.status(500).send(e.message);
+  }
 });
 
 app.listen(PORT, () => {
