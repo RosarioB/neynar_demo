@@ -41,6 +41,11 @@ app.post("/api/cast", async (req: Request, res: Response) => {
     await neynarClient.publishCast({
       signerUuid: config.signer_uuid,
       text: text,
+      embeds: [
+        {
+          url: "https://apricot-obvious-xerinae-783.mypinata.cloud/ipfs/bafybeiejeassvoqz2gk7tl4m725qyxcyz2dsa7wtr3fayechhm5nvl5jee",
+        }
+      ],
     });
     console.log("Published cast:", text);
     res.status(200).send(`Cast published successfully`);
