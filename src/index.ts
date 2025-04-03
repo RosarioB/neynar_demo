@@ -18,12 +18,10 @@ app.set("trust proxy", true);
 app.use(express.json());
 app.use(cors());
 
-// Testing that the server is running
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, this is the Neynar Test server!");
 });
 
-// Webhook to handle mentions @Aethermint from Farcaster
 app.post("/api/webhook/mention", async (req: Request, res: Response) => {
   try {
     const data = req.body;
@@ -34,7 +32,6 @@ app.post("/api/webhook/mention", async (req: Request, res: Response) => {
   }
 });
 
-// Pusblishing a cast to Farcaster
 app.post("/api/cast", async (req: Request, res: Response) => {
   const text = req.body.text;
   const imageUrl=req.body.imageUrl;
