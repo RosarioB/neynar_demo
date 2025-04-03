@@ -37,19 +37,37 @@ app.post("/api/webhook/mention", async (req: Request, res: Response) => {
 // Pusblishing a cast to Farcaster
 app.post("/api/cast", async (req: Request, res: Response) => {
   const text = req.body.text;
+  const imageUrl=req.body.imageUrl;
   try {
     await neynarClient.publishCast({
       signerUuid: config.signer_uuid,
       text: text,
       embeds: [
         {
-          url: "https://apricot-obvious-xerinae-783.mypinata.cloud/ipfs/bafybeiejeassvoqz2gk7tl4m725qyxcyz2dsa7wtr3fayechhm5nvl5jee",
-        }
+          url: imageUrl,
+        },
       ],
     });
     console.log("Published cast:", text);
     res.status(200).send(`Cast published successfully`);
   } catch (e: any) {
+    res.status(500).send(e.message);
+  }
+});
+
+app.get("/api/users/:username", async (req: Request, res: Response) => {
+  const username = req.params.username;
+  try {
+    const userResponse = await neynarClient.lookupUserByUsername({
+      username,
+    });
+    if (userResponse) {
+      res.status(200).send(userResponse);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (e: any) {
+    console.error("Error fetching user:", e);
     res.status(500).send(e.message);
   }
 });
