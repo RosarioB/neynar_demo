@@ -34,7 +34,7 @@ app.post("/api/webhook/mention", async (req: Request, res: Response) => {
 
 app.post("/api/cast", async (req: Request, res: Response) => {
   const text = req.body.text;
-  const imageUrl=req.body.imageUrl;
+  const imageUrl = req.body.imageUrl;
   try {
     await neynarClient.publishCast({
       signerUuid: config.signer_uuid,
