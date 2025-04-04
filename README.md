@@ -1,6 +1,7 @@
 # Neynar Demo
-
 This repository demonstrates how to create a REST API that integrates with Farcaster using Neynar. The API can receive mentions and publish new casts.
+
+This is the repository of this [Youtube video](https://www.youtube.com/watch?v=-qiy08YMSwU)
 
 ## Setup
 
